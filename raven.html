@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raven Partners | Advisors to Growth Businesses</title>
+    <meta name="description" content="Independent investment banking for technology founders. Strategic M&A advisory, growth capital, and institutional counsel.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --raven-black: #0A0F1C;
+            --slate-blue: #1E2842;
+            --steel-gray: #4A5568;
+            --electric-cyan: #00D9FF;
+            --silver: #E2E8F0;
+            --ghost-white: #F7FAFC;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            color: var(--raven-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(30, 40, 66, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: var(--slate-blue);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--electric-cyan);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--slate-blue) 0%, #0A0F1C 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subheading {
+            font-size: 1.35rem;
+            color: var(--silver);
+            max-width: 800px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--electric-cyan);
+            color: var(--raven-black);
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            color: var(--electric-cyan);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-light {
+            background: var(--ghost-white);
+        }
+
+        .section-dark {
+            background: var(--slate-blue);
+            color: white;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.15rem;
+            color: var(--steel-gray);
+            max-width: 700px;
+            margin-bottom: 4rem;
+        }
+
+        .section-dark .section-subtitle {
+            color: var(--silver);
+        }
+
+        .team-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--silver);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(10, 15, 28, 0.15);
+            border-color: var(--electric-cyan);
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 2rem;
+        }
+
+        .team-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-title {
+            color: var(--steel-gray);
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .team-bio {
+            color: var(--steel-gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-linkedin {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--electric-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .value-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(10, 15, 28, 0.12);
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--electric-cyan), #0099CC);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--steel-gray);
+            line-height: 1.7;
+        }
+
+        .services-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .service-item {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--silver);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-item p {
+            color: var(--steel-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--electric-cyan), #0099CC);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--raven-black);
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: rgba(10, 15, 28, 0.8);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--raven-black);
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background: var(--raven-black);
+            color: var(--silver);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--steel-gray);
+        }
+
+        @media (max-width: 1024px) {
+            .services-layout {
+                grid-template-columns: 1fr;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Raven Partners</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="grid-pattern"></div>
+        <div class="hero-content">
+            <h1>Advisors to<br>Growth Businesses</h1>
+            <p class="hero-subheading">We advise technology founders and CEOs through their most consequential decisions — from growth capital to strategic exits. Independent counsel. Institutional execution.</p>
+            <div class="cta-group">
+                <a href="#contact" class="btn-primary">Get in Touch</a>
+                <a href="#team" class="btn-secondary">Meet the Team →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-light" id="team">
+        <div class="container">
+            <div class="team-intro">
+                <h2>Founding Team</h2>
+                <p class="section-subtitle">Raven Partners was founded by three senior investment bankers from Arma Partners, bringing decades of combined experience advising technology companies on M&A and growth capital transactions.</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="https://img1.wsimg.com/isteam/ip/5ff7697d-0d7c-437c-8d3a-f9e77572fc67/Simon%20photo.jpeg" alt="Simon Carmichael">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Simon Carmichael</div>
+                        <div class="team-title">Managing Partner</div>
+                        <div class="team-bio">Simon has over 20 years of investment banking experience advising high-growth internet and technology businesses. Prior to founding Raven Partners, he was Partner and Co-Head of Private Capital at Arma Partners. Earlier, he was Managing Director at Torch Partners, advising companies including Just-Eat, Secret Escapes, and Notonthehighstreet.com. He started his career at Hambrecht & Quist and CSFB Technology Group. Simon holds an M.Eng in Metallurgy from Oxford University.</div>
+                        <a href="https://www.linkedin.com/in/simoncarmichael/" target="_blank" class="team-linkedin">
+                            LinkedIn →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="https://img1.wsimg.com/isteam/ip/5ff7697d-0d7c-437c-8d3a-f9e77572fc67/Huw%20photo.jpeg" alt="Huw Lloyd">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Huw Lloyd</div>
+                        <div class="team-title">Partner</div>
+                        <div class="team-bio">Huw combines senior advisory experience with operational expertise. Prior to co-founding Raven Partners, he was Managing Director at Arma Partners advising on major technology M&A transactions. Before investment banking, Huw was Chief Strategy Officer at Everseen, a retail AI company, giving him unique operational perspective on building and scaling technology businesses.</div>
+                        <a href="https://www.linkedin.com/in/huw-lloyd-80bb278/" target="_blank" class="team-linkedin">
+                            LinkedIn →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="https://img1.wsimg.com/isteam/ip/5ff7697d-0d7c-437c-8d3a-f9e77572fc67/blob.png" alt="Shajeed Surani">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Shajeed Surani</div>
+                        <div class="team-title">Partner</div>
+                        <div class="team-bio">Shajeed brings extensive global M&A experience, having advised on over $12 billion in transactions. Prior to co-founding Raven Partners, he was Managing Director at Arma Partners. Before that, he spent six years at Citigroup's M&A team across UK, UAE, and India, focusing on communications, media, and technology. Shajeed is a Chartered Accountant and holds a Masters in Commerce from the University of Mumbai.</div>
+                        <a href="https://www.linkedin.com/in/shajeed-surani-3573084b/" target="_blank" class="team-linkedin">
+                            LinkedIn →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>Built for Founders, Not Spreadsheets</h2>
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="icon">◈</div>
+                    <h3>Technology Native</h3>
+                    <p>We speak your language. From SaaS and vertical software to fintech and infrastructure, we understand the business models, unit economics, and strategic dynamics that drive technology value creation.</p>
+                </div>
+                <div class="value-card">
+                    <div class="icon">◆</div>
+                    <h3>Aligned Counsel</h3>
+                    <p>No proprietary capital. No conflicts. No sell-side pressure to close the wrong deal. We represent your interests with complete independence and institutional discipline.</p>
+                </div>
+                <div class="value-card">
+                    <div class="icon">◇</div>
+                    <h3>Quiet Strength</h3>
+                    <p>Discretion, urgency, and precision. We manage complex processes with minimal noise, maximum preparation, and a relentless focus on achieving optimal outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-light" id="services">
+        <div class="container">
+            <div class="services-layout">
+                <div>
+                    <h2>Services Designed Around Strategic Inflection Points</h2>
+                    <p class="section-subtitle">Whether you're considering an exit, raising institutional capital, or evaluating strategic alternatives, we bring structure, market insight, and relentless execution.</p>
+                </div>
+                <div>
+                    <div class="service-item">
+                        <h3>M&A Advisory</h3>
+                        <p>Sell-side representation for technology companies navigating strategic acquisitions or full exits. We architect competitive processes that maximize value and strategic fit.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>Capital Raising</h3>
+                        <p>Growth equity and late-stage venture financing for scaling technology businesses. We position your story, curate the right investor audience, and negotiate optimal terms.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>Strategic Advisory</h3>
+                        <p>Independent counsel on complex decisions — from capital structure optimization to board-level strategic alternatives. Judgment developed over decades, applied to your context.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p>Whether you're evaluating strategic options, preparing for a process, or exploring capital alternatives, we're here for a confidential conversation.</p>
+            <a href="mailto:info@ravenpartners.com" class="btn-white">Contact Us</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">Raven Partners</div>
+                <p>Advisors to growth businesses.</p>
+            </div>
+            <div>
+                <p><a href="mailto:info@ravenpartners.com" style="color: var(--silver); text-decoration: none;">info@ravenpartners.com</a></p>
+            </div>
+            <div>
+                <p><a href="#team" style="color: var(--silver); text-decoration: none;">Team</a></p>
+                <p><a href="#services" style="color: var(--silver); text-decoration: none;">Services</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2025 Raven Partners - All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
