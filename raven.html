@@ -148,9 +148,21 @@
         }
 
         .btn-secondary {
-            color: var(--electric-cyan);
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--raven-black);
+            transform: translateY(-2px);
         }
 
         section {
@@ -329,24 +341,24 @@
         }
 
         .cta-section {
-            background: linear-gradient(135deg, var(--electric-cyan), #0099CC);
+            background: var(--slate-blue);
             text-align: center;
         }
 
         .cta-section h2 {
-            color: var(--raven-black);
+            color: white;
         }
 
         .cta-section p {
             font-size: 1.2rem;
-            color: rgba(10, 15, 28, 0.8);
+            color: var(--silver);
             max-width: 700px;
             margin: 0 auto 3rem;
             line-height: 1.7;
         }
 
         .btn-white {
-            background: white;
+            background: var(--electric-cyan);
             color: var(--raven-black);
             padding: 1rem 2.5rem;
             border-radius: 6px;
@@ -358,7 +370,7 @@
 
         .btn-white:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.4);
         }
 
         footer {
@@ -508,7 +520,7 @@
             <p class="hero-subheading">We advise technology founders and CEOs through their most consequential decisions — from growth capital to strategic exits. Independent counsel. Institutional execution.</p>
             <div class="cta-group">
                 <a href="#contact" class="btn-primary">Get in Touch</a>
-                <a href="#team" class="btn-secondary">Meet the Team →</a>
+                <a href="#team" class="btn-secondary">Meet the Team</a>
             </div>
         </div>
     </section>
