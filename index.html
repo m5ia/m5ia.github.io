@@ -143,16 +143,32 @@
         }
 
         .greeting {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeInUp 0.8s forwards;
+            font-weight: 600;
+        }
+
+        .wave {
+            display: inline-block;
+            animation: wave 2.5s infinite;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(14deg); }
+            20%, 40% { transform: rotate(-8deg); }
+            50%, 60% { transform: rotate(14deg); }
+            70% { transform: rotate(-4deg); }
+            80% { transform: rotate(10deg); }
         }
 
         h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.1;
             opacity: 0;
@@ -424,8 +440,12 @@
                 padding: 4rem 0;
             }
 
+            .greeting {
+                font-size: 1.75rem;
+            }
+
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
 
             .areas-grid {
@@ -450,9 +470,14 @@
         <div class="gradient-orb orb-3"></div>
     </div>
 
+    <div class="container">
+        <nav>
+            <div class="logo">m5ia</div>
+        </nav>
+
         <section class="hero">
             <div class="hero-content">
-                <p class="greeting">👋 Hey, I'm Max.</p>
+                <p class="greeting"><span class="wave">👋</span> Hey, I'm Max.</p>
                 <h1>Finance Professional<br><span class="gradient-text">& Tech Enthusiast</span></h1>
                 <p class="subtitle">London-based M&A and private equity specialist</p>
                 <p class="description">
