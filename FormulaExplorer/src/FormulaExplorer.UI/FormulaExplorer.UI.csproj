@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    FormulaExplorer.UI — WPF windows only. No COM, no business logic.
+    Depends on Core (for view-models); never on the Excel project.
+  -->
+  <PropertyGroup>
+    <RootNamespace>FormulaExplorer.UI</RootNamespace>
+    <AssemblyName>FormulaExplorer.UI</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <!-- This is a library of windows, not an app: no App.xaml / Main entry point. -->
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FormulaExplorer.Core\FormulaExplorer.Core.csproj" />
+  </ItemGroup>
+
+</Project>

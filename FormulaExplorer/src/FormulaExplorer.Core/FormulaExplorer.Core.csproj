@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    FormulaExplorer.Core — ZERO Excel / COM references (hard architectural rule).
+    If a COM type ever appears in this project, the build is wrong: fix the
+    IGridContext seam instead of adding a reference here.
+  -->
+  <PropertyGroup>
+    <RootNamespace>FormulaExplorer.Core</RootNamespace>
+    <AssemblyName>FormulaExplorer.Core</AssemblyName>
+  </PropertyGroup>
+
+</Project>

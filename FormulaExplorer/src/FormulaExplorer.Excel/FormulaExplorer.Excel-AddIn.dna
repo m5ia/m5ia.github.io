@@ -1,0 +1,14 @@
+<DnaLibrary Name="Formula Explorer" RuntimeVersion="v4.0"
+            xmlns="http://schemas.excel-dna.net/2008/01/dnaFile">
+
+  <!-- Main add-in assembly. LoadFromBytes lets ExcelDnaPack fold it into the single .xll. -->
+  <ExternalLibrary Path="FormulaExplorer.Excel.dll"
+                   ExplicitExports="false"
+                   LoadFromBytes="true"
+                   Pack="true" />
+
+  <!-- Project dependencies, packed into the .xll so distribution is a single file. -->
+  <Reference Path="FormulaExplorer.Core.dll" Pack="true" />
+  <Reference Path="FormulaExplorer.UI.dll" Pack="true" />
+
+</DnaLibrary>

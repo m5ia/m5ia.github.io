@@ -1,0 +1,17 @@
+<Project>
+  <!--
+    Shared build settings for all FormulaExplorer projects.
+    Target net48 across the board (hard constraint). C# latest so we can use
+    record structs / init setters; net48 needs the IsExternalInit shim (Core provides it).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Platforms>AnyCPU</Platforms>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+  </PropertyGroup>
+</Project>

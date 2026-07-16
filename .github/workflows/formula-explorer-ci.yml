@@ -1,0 +1,38 @@
+name: FormulaExplorer CI
+
+# Builds the solution and runs the headless Core tests. net48 + WPF + Excel-DNA build on
+# Windows; the runner has NO Excel installed, which is exactly the environment Core.Tests
+# must pass in. Scoped to the FormulaExplorer/ subtree so website changes don't trigger it.
+on:
+  push:
+    branches: [ "**" ]
+    paths:
+      - "FormulaExplorer/**"
+      - ".github/workflows/formula-explorer-ci.yml"
+  pull_request:
+    paths:
+      - "FormulaExplorer/**"
+      - ".github/workflows/formula-explorer-ci.yml"
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: FormulaExplorer
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore FormulaExplorer.sln
+
+      - name: Build (whole solution)
+        run: dotnet build FormulaExplorer.sln --configuration Release --no-restore
+
+      - name: Test (headless Core, no Excel)
+        run: dotnet test tests/FormulaExplorer.Core.Tests/FormulaExplorer.Core.Tests.csproj --configuration Release --no-build

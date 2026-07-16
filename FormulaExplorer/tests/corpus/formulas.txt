@@ -1,0 +1,7 @@
+# Formula corpus. One formula per line (blank lines and # comments ignored).
+# Grows every time something breaks. Parse-tree snapshots are added from M2 onward.
+#
+# M1 has no parser yet — these are the M2 acceptance seeds.
+
+=1+1
+=IF(A1>0,SUM(B1:B10),VLOOKUP(C1,Data!A:D,3,0))

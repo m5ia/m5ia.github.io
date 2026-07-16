@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    FormulaExplorer.Excel — the ONLY project that references COM.
+    Produces 32- and 64-bit .xll add-ins via ExcelDna.AddIn, and packs them to a single
+    file each via ExcelDnaPack. UseWPF because this project creates the WPF windows and
+    sets their Owner to Excel's hwnd (WindowInteropHelper).
+  -->
+  <PropertyGroup>
+    <RootNamespace>FormulaExplorer.Excel</RootNamespace>
+    <AssemblyName>FormulaExplorer.Excel</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <!-- Build both bitnesses and pack each into a self-contained .xll. -->
+    <RunExcelDnaPack>true</RunExcelDnaPack>
+  </PropertyGroup>
+
+  <!--
+    Debug launch: start Excel with the packed 64-bit .xll (constraint / M1 requirement).
+    Honoured by the classic project system; VS 2022 with SDK-style net48 also reads
+    Properties/launchSettings.json (provided alongside). Adjust the Office path if your
+    install differs (e.g. Office15 for 2013, or Program Files (x86) for 32-bit Office).
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE</StartProgram>
+    <StartArguments>"$(TargetDir)FormulaExplorer.Excel-AddIn64-packed.xll"</StartArguments>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDna.AddIn" Version="1.9.0" />
+    <PackageReference Include="ExcelDna.Interop" Version="15.0.1">
+      <!-- Never version-pin to a specific Office PIA: embed the interop types. -->
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Needed for `dynamic` (late-bound Formula2 access) on net48. -->
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FormulaExplorer.Core\FormulaExplorer.Core.csproj" />
+    <ProjectReference Include="..\FormulaExplorer.UI\FormulaExplorer.UI.csproj" />
+  </ItemGroup>
+
+</Project>

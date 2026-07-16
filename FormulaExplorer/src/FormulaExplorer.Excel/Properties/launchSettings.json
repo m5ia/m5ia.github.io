@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Excel (64-bit, packed)": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+      "commandLineArgs": "\"bin\\Debug\\FormulaExplorer.Excel-AddIn64-packed.xll\"",
+      "workingDirectory": "$(ProjectDir)"
+    },
+    "Excel (64-bit, unpacked)": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+      "commandLineArgs": "\"bin\\Debug\\FormulaExplorer.Excel-AddIn64.xll\"",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}
