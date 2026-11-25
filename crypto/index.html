@@ -11,11 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0c0c; --panel: #101615; --panel-2: #131a19;
+    --bg: #0a0c0c; --panel: #101615; --panel-2: #131a19; --track: #1b2322;
     --line: rgba(255,255,255,0.08); --line-2: rgba(255,255,255,0.15);
     --fg: #f1f5f3; --dim: #c4cbc9; --faint: #869190;
-    --accent: #33bfa1; --accent-soft: rgba(51,191,161,0.12);
-    --neg: #e5705f; --neg-soft: rgba(229,112,95,0.12);
+    --accent: #33bfa1; --neg: #e5705f; --warn: #d9a441;
     --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
     --maxw: 1180px;
@@ -42,45 +41,78 @@
   .seg button[aria-pressed="true"] { background: var(--panel-2); color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-2); }
   .seg.mono button { font-family: var(--mono); font-size: 12.5px; padding: 7px 11px; }
 
+  .sec-lbl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; margin: 34px 0 14px; }
+  .sec-lbl::before { content: ""; width: 24px; height: 1px; background: var(--accent); opacity: 0.7; }
+
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; min-width: 0; }
-  .stat .k { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  .panel, .stat, .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; min-width: 0; }
+  .stat { padding: 18px 18px 16px; }
+  .k, .card h2 { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .stat .k { margin-bottom: 10px; }
   .stat .v { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .stat .s { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin-top: 8px; font-variant-numeric: tabular-nums; }
-  .up { color: var(--accent); } .down { color: var(--neg); }
+  .up { color: var(--accent); } .down { color: var(--neg); } .hot { color: var(--warn); }
 
-  .read { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
-  .read h2, .card h2 { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
-  .read ul { list-style: none; display: grid; gap: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card { padding: 18px 18px 14px; }
+  .card.wide { grid-column: 1 / -1; }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .card .note { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .chart { position: relative; height: 260px; }
+  .card.wide .chart { height: 320px; }
+  .chart.liq { height: 360px; }
+  .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--faint); font-size: 14px; padding: 20px; }
+
+  /* meters */
+  .meter { margin-bottom: 18px; }
+  .meter:last-child { margin-bottom: 4px; }
+  .meter .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .meter .name { font-size: 14px; color: var(--dim); }
+  .meter .val { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .meter .val small { font-size: 13px; color: var(--faint); font-weight: 500; margin-left: 6px; letter-spacing: 0; }
+  .track { position: relative; height: 8px; border-radius: 4px; background: var(--track); }
+  .track .fill { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .track .mid { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--line-2); }
+  .track .pin { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; background: var(--fg); box-shadow: 0 0 0 2px var(--panel); }
+  .scale { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; color: var(--faint); margin-top: 6px; }
+  .parts { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; margin-top: 10px; font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+  .parts span:nth-child(even) { text-align: right; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .spark { position: relative; height: 100px; margin-top: 12px; }
+
+  .read { padding: 18px 20px; margin-top: 12px; }
+  .read ul { list-style: none; display: grid; gap: 7px; margin-top: 10px; }
   .read li { color: var(--dim); font-size: 14.5px; padding-left: 16px; position: relative; }
   .read li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 1px; background: var(--line-2); }
   .read li b { color: var(--fg); font-weight: 500; }
 
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 12px; min-width: 0; }
-  .card.wide { grid-column: 1 / -1; }
-  .card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-  .card .head .note { font-family: var(--mono); font-size: 12px; color: var(--faint); }
-  .chart { position: relative; height: 260px; }
-  .card.wide .chart { height: 320px; }
-  .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--faint); font-size: 14px; padding: 20px; }
+  .clusters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .clusters h3 { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 
-  details { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; }
-  summary { cursor: pointer; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
-  .tbl { overflow-x: auto; margin-top: 12px; }
+  .tbl { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
   th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
   th:first-child, td:first-child { text-align: left; }
   th { color: var(--faint); font-weight: 500; }
   td { color: var(--dim); }
+  tr:last-child td { border-bottom: 0; }
+
+  details { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; }
+  summary { cursor: pointer; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+  details .body { margin-top: 12px; color: var(--dim); font-size: 14px; display: grid; gap: 8px; }
+  details .body b { color: var(--fg); font-weight: 500; }
 
   footer { color: var(--faint); font-size: 12.5px; padding: 32px 0 48px; }
   footer a { text-decoration: underline; text-underline-offset: 3px; }
   .err { margin-top: 28px; padding: 18px 20px; border: 1px solid var(--neg); border-radius: 14px; color: var(--dim); }
 
-  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } .stats .stat:first-child { grid-column: 1 / -1; } }
-  @media (max-width: 560px) { .wrap { padding: 0 16px; } .stat .v { font-size: 22px; } .brand .sub { display: none; } .chart, .card.wide .chart { height: 220px; } }
+  @media (max-width: 960px) { .grid, .grid3 { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; } .stat .v { font-size: 22px; } .brand .sub { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); } .stats .stat:first-child { grid-column: 1 / -1; }
+    .chart, .card.wide .chart { height: 220px; } .chart.liq { height: 300px; } .clusters { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -94,90 +126,185 @@
 <main class="wrap">
   <div class="controls">
     <div class="seg" id="coin-seg" role="group" aria-label="Asset"></div>
-    <div class="seg mono" id="range-seg" role="group" aria-label="Time range">
+    <div class="seg mono" id="range-seg" role="group" aria-label="Time range for charts">
       <button data-h="24">1D</button><button data-h="72">3D</button><button data-h="168">7D</button><button data-h="336">14D</button>
     </div>
   </div>
 
   <section class="stats" id="stats" aria-live="polite"></section>
 
-  <section class="read"><h2>Read</h2><ul id="read"></ul></section>
+  <section class="panel read"><span class="k">Read</span><ul id="read"></ul></section>
 
+  <div class="sec-lbl">Signals</div>
+  <section class="grid3">
+    <div class="card" id="trend-card">
+      <div class="head"><h2>Trend indicator</h2><span class="note">daily closes</span></div>
+      <div id="trend"></div>
+      <div class="spark"><canvas id="trend-spark" aria-label="Trend score history, 120 days"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Market gauges</h2><span class="note" id="gauge-note"></span></div>
+      <div id="gauges"></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Squeeze risk</h2><span class="note">0 to 100</span></div>
+      <div id="squeeze"></div>
+    </div>
+  </section>
+
+  <div class="sec-lbl">Liquidity</div>
+  <section class="card wide">
+    <div class="head"><h2 id="liq-title">Liquidation map (model)</h2><span class="note" id="liq-note"></span></div>
+    <div class="chart liq"><canvas id="liq-chart" aria-label="Estimated liquidation levels by price"></canvas><div class="empty" id="liq-empty" hidden></div></div>
+    <div class="clusters">
+      <div><h3><span class="sw" style="background:var(--accent)"></span>Short liquidations above</h3><div class="tbl"><table><thead><tr><th>Zone</th><th>Distance</th><th>Est. size</th></tr></thead><tbody id="cl-above"></tbody></table></div></div>
+      <div><h3><span class="sw" style="background:var(--neg)"></span>Long liquidations below</h3><div class="tbl"><table><thead><tr><th>Zone</th><th>Distance</th><th>Est. size</th></tr></thead><tbody id="cl-below"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <div class="sec-lbl">Market</div>
   <section class="grid">
     <div class="card wide">
-      <div class="head"><h2 id="price-title">Price</h2><span class="note">1h close, USD</span></div>
+      <div class="head"><h2 id="price-title">Price</h2><span class="note">Hyperliquid perp, 1h close, USD</span></div>
       <div class="chart"><canvas id="price-chart" aria-label="Price chart"></canvas></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Funding rate</h2><span class="note">hourly, % per hour</span></div>
+      <div class="head"><h2>Funding rate</h2><span class="note">Hyperliquid, % per hour</span></div>
       <div class="chart"><canvas id="funding-chart" aria-label="Funding rate chart"></canvas></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Open interest</h2><span class="note">USD notional</span></div>
+      <div class="head"><h2>Open interest</h2><span class="note" id="oi-note">Binance, USD</span></div>
       <div class="chart"><canvas id="oi-chart" aria-label="Open interest chart"></canvas><div class="empty" id="oi-empty" hidden></div></div>
     </div>
   </section>
 
+  <div class="sec-lbl">Positioning</div>
+  <section class="grid">
+    <div class="card">
+      <div class="head"><h2>Position flow</h2><span class="note" id="flow-note"></span></div>
+      <div class="tbl"><table><thead><tr><th>Window</th><th>Reading</th><th>Price</th><th>OI</th></tr></thead><tbody id="flows"></tbody></table></div>
+      <p class="note" style="margin-top:10px">OI alone can't tell you which side opened the positions. This is the usual reading, not proof.</p>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Long / short ratios</h2><span class="note" id="ls-note"></span></div>
+      <div class="tbl"><table><thead><tr><th>Measure</th><th>Value</th><th>Longs share</th></tr></thead><tbody id="ls"></tbody></table></div>
+    </div>
+  </section>
+
+  <details>
+    <summary>How these are calculated</summary>
+    <div class="body">
+      <p><b>Trend indicator.</b> Each score averages four parts scaled to -100 / +100. Mid-term: price vs 21-day EMA, 21 vs 55-day EMA, 10-day slope of the 21 EMA, 30-day return. Long-term: price vs 200-day SMA, 50 vs 200-day SMA, 30-day slope of the 200 SMA, 180-day return. Closed daily candles only.</p>
+      <p><b>Funding bias.</b> Percentile of the last 24h of Hyperliquid funding against its own daily history (60% 1-year, 40% 6-month). 50 is typical, low means shorts are paying more than usual, high means longs are. Hyperliquid's neutral rate is about +11% a year, so the percentile handles that automatically.</p>
+      <p><b>OI pressure.</b> Percentile of Binance open interest (in coins) against the last year (60%) and six months (40%). High means a lot of leverage is in the market.</p>
+      <p><b>Market tension.</b> 55% OI pressure + 30% how far funding bias is from 50 (doubled) + 15% percentile of the latest daily OI change.</p>
+      <p><b>Squeeze risk.</b> 40% crowding on that side (funding bias distance from 50) + 35% OI pressure + 25% size of the last 24h move against that side. Scores, not probabilities.</p>
+      <p><b>Liquidation map.</b> A model, not real orders. Every hourly rise in Binance OI over the last 30 days is split long/short by taker buy/sell volume, spread across 5x/10x/25x/50x/100x leverage (15/30/25/20/10%), and placed at its liquidation price. Falls in OI shrink all open levels. A level is removed once price trades through it. Positions opened before the window aren't counted.</p>
+      <p><b>Binance data</b> comes from Binance's public archive, which publishes each day's file the next day, so those numbers run up to a day behind. Hyperliquid numbers are live as of the last hourly update.</p>
+    </div>
+  </details>
+
   <details>
     <summary>Data table, last 24 hours</summary>
-    <div class="tbl"><table><thead><tr><th>Hour (local)</th><th>Close</th><th>High</th><th>Low</th><th>Funding %/h</th></tr></thead><tbody id="tbl"></tbody></table></div>
+    <div class="tbl" style="margin-top:12px"><table><thead><tr><th>Hour (local)</th><th>Close</th><th>High</th><th>Low</th><th>Funding %/h</th></tr></thead><tbody id="tbl"></tbody></table></div>
   </details>
 </main>
 
 <footer class="wrap">
-  Data: <a href="https://hyperliquid.xyz" rel="noopener">Hyperliquid</a> perpetuals, snapshotted hourly. Personal analysis tool, not investment advice.
+  Data: <a href="https://hyperliquid.xyz" rel="noopener">Hyperliquid</a> API and the <a href="https://data.binance.vision" rel="noopener">Binance public data archive</a>, updated hourly. Personal analysis tool, not investment advice.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 (() => {
-  const COLORS = { accent: '#33bfa1', neg: '#e5705f', grid: 'rgba(255,255,255,0.06)', tick: '#869190', fg: '#f1f5f3' };
+  const C = { accent: '#33bfa1', neg: '#e5705f', warn: '#d9a441', grid: 'rgba(255,255,255,0.06)', tick: '#869190', fg: '#f1f5f3', faint: '#869190', panel: '#101615' };
+  const HL_BASE_ANN = 0.00125 / 100 * 24 * 365 * 100; // Hyperliquid neutral funding, % a year
   const store = { get(k){ try { return localStorage.getItem(k); } catch { return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch {} } };
   const state = { coin: store.get('cd-coin') || 'BTC', hours: +(store.get('cd-hours') || 168) };
   let data, charts = {};
 
   const $ = id => document.getElementById(id);
-  const fmtUsd = (v, d) => v == null ? '–' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: d ?? (v < 10 ? 3 : v < 1000 ? 2 : 0), maximumFractionDigits: d ?? (v < 10 ? 3 : v < 1000 ? 2 : 0) });
-  const fmtBig = v => v == null ? '–' : v >= 1e9 ? '$' + (v/1e9).toFixed(2) + 'B' : '$' + (v/1e6).toFixed(1) + 'M';
+  const dp = v => v < 10 ? 3 : v < 1000 ? 2 : 0;
+  const fmtUsd = (v, d) => v == null ? '–' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: d ?? dp(v), maximumFractionDigits: d ?? dp(v) });
+  const fmtBig = v => v == null ? '–' : v >= 1e9 ? '$' + (v/1e9).toFixed(2) + 'B' : v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : '$' + (v/1e3).toFixed(0) + 'K';
   const fmtPct = (v, d = 2) => v == null ? '–' : (v > 0 ? '+' : '') + v.toFixed(d) + '%';
   const cls = v => v == null ? '' : v >= 0 ? 'up' : 'down';
   const hourLabel = t => new Date(t).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const dayLabel = d => new Date(d + (typeof d === 'string' ? 'T00:00:00Z' : 0)).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
 
   Chart.defaults.font.family = getComputedStyle(document.documentElement).getPropertyValue('--mono');
   Chart.defaults.font.size = 11;
-  Chart.defaults.color = COLORS.tick;
+  Chart.defaults.color = C.tick;
 
-  const baseOpts = (fmtY) => ({
+  const tooltip = (label, title) => ({ backgroundColor: '#0a0c0c', borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, padding: 10, titleColor: C.tick, bodyColor: C.fg, displayColors: false, callbacks: { label, title } });
+  const timeOpts = (fmtY) => ({
     responsive: true, maintainAspectRatio: false, animation: false,
     interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { display: false },
-      tooltip: { backgroundColor: '#0a0c0c', borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, padding: 10, titleColor: COLORS.tick, bodyColor: COLORS.fg, displayColors: false,
-        callbacks: { label: c => fmtY(c.parsed.y) } }
-    },
+    plugins: { legend: { display: false }, tooltip: tooltip(c => fmtY(c.parsed.y), items => hourLabel(items[0].parsed.x)) },
     scales: {
-      x: { type: 'linear', grid: { display: false }, border: { color: COLORS.grid },
+      x: { type: 'linear', offset: false, grid: { display: false }, border: { color: C.grid },
            ticks: { maxTicksLimit: 6, maxRotation: 0, callback: v => new Date(v).toLocaleString('en-GB', state.hours <= 24 ? { hour: '2-digit', minute: '2-digit' } : { day: '2-digit', month: 'short' }) } },
-      y: { position: 'right', grid: { color: COLORS.grid }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: fmtY } }
+      y: { position: 'right', grid: { color: C.grid }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: fmtY } }
     }
   });
-  const titleCb = items => hourLabel(items[0].parsed.x);
+  const lineDs = () => ({ data: [], borderColor: C.accent, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: C.accent, pointHoverBorderColor: C.panel, pointHoverBorderWidth: 2, tension: 0.15 });
 
-  function lineChart(id, fmtY) {
-    const o = baseOpts(fmtY); o.plugins.tooltip.callbacks.title = titleCb;
-    return new Chart($(id), { type: 'line', data: { datasets: [{ data: [], borderColor: COLORS.accent, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: COLORS.accent, pointHoverBorderColor: '#101615', pointHoverBorderWidth: 2, tension: 0.15, fill: { target: 'origin' }, backgroundColor: 'rgba(51,191,161,0.07)' }] }, options: o });
-  }
+  // vertical marker at the current price on the liquidation map
+  const priceLine = {
+    id: 'priceLine',
+    afterDatasetsDraw(chart, _, opts) {
+      if (opts.value == null) return;
+      const { ctx, chartArea: a, scales: { x } } = chart;
+      const px = x.getPixelForValue(opts.value);
+      ctx.save();
+      ctx.strokeStyle = C.fg; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px, a.top + 14); ctx.lineTo(px, a.bottom); ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = C.fg; ctx.font = '500 11px ' + Chart.defaults.font.family; ctx.textAlign = 'center';
+      ctx.fillText('Price ' + fmtUsd(opts.value), px, a.top + 8);
+      ctx.restore();
+    }
+  };
 
   function initCharts() {
-    charts.price = lineChart('price-chart', v => fmtUsd(v));
-    charts.price.options.scales.y.beginAtZero = false;
-    charts.price.data.datasets[0].fill = false;
-    charts.oi = lineChart('oi-chart', fmtBig);
-    charts.oi.data.datasets[0].fill = false;
-    const fo = baseOpts(v => (v > 0 ? '+' : '') + v.toFixed(4) + '%');
-    fo.plugins.tooltip.callbacks.title = titleCb;
-    fo.scales.x.offset = false;
+    charts.price = new Chart($('price-chart'), { type: 'line', data: { datasets: [lineDs()] }, options: timeOpts(v => fmtUsd(v)) });
+    charts.oi = new Chart($('oi-chart'), { type: 'line', data: { datasets: [lineDs()] }, options: timeOpts(fmtBig) });
+    const fo = timeOpts(v => (v > 0 ? '+' : '') + v.toFixed(4) + '%');
     charts.funding = new Chart($('funding-chart'), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: [], borderRadius: 2, barPercentage: 0.8, categoryPercentage: 1 }] }, options: fo });
+
+    charts.liq = new Chart($('liq-chart'), {
+      type: 'bar', plugins: [priceLine],
+      data: { datasets: [
+        { label: 'Long liquidations', data: [], backgroundColor: C.neg, borderRadius: 2, barPercentage: 0.9, categoryPercentage: 1, grouped: false },
+        { label: 'Short liquidations', data: [], backgroundColor: C.accent, borderRadius: 2, barPercentage: 0.9, categoryPercentage: 1, grouped: false }
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        interaction: { mode: 'nearest', axis: 'x', intersect: false },
+        plugins: {
+          legend: { display: true, position: 'bottom', align: 'start', labels: { boxWidth: 10, boxHeight: 10, useBorderRadius: true, borderRadius: 2, color: C.tick, padding: 14 } },
+          priceLine: { value: null },
+          tooltip: tooltip(c => `${c.dataset.label}: ${fmtBig(c.parsed.y)}`, items => { const r = items[0].raw; return `${fmtUsd(r.lo)} – ${fmtUsd(r.hi)}`; })
+        },
+        scales: {
+          x: { type: 'linear', offset: false, grid: { display: false }, border: { color: C.grid }, ticks: { maxTicksLimit: 8, maxRotation: 0, callback: v => fmtUsd(v) } },
+          y: { position: 'right', grid: { color: C.grid }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: fmtBig } }
+        }
+      }
+    });
+
+    charts.spark = new Chart($('trend-spark'), {
+      type: 'line',
+      data: { datasets: [
+        { label: 'Mid-term', data: [], borderColor: C.accent, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2 },
+        { label: 'Long-term', data: [], borderColor: '#8fa3c9', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2 }
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: true, position: 'bottom', align: 'start', labels: { boxWidth: 8, boxHeight: 8, useBorderRadius: true, borderRadius: 2, color: C.tick, padding: 10, font: { size: 10 } } }, tooltip: { ...tooltip(c => `${c.dataset.label}: ${c.parsed.y > 0 ? '+' : ''}${c.parsed.y}`, items => dayLabel(items[0].parsed.x)), displayColors: true, boxWidth: 8, boxHeight: 8 } },
+        scales: { x: { type: 'linear', display: false }, y: { min: -100, max: 100, display: true, position: 'right', grid: { color: c => c.tick.value === 0 ? 'rgba(255,255,255,0.15)' : 'transparent' }, border: { display: false }, ticks: { stepSize: 100, font: { size: 10 } } } }
+      }
+    });
   }
 
   function renderSegs() {
@@ -185,62 +312,143 @@
     document.querySelectorAll('#range-seg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.h === state.hours));
   }
 
-  function readNotes(c) {
-    const notes = [];
-    const fundAnn = c.fundingAnnualPct;
-    if (Math.abs(fundAnn) < 3) notes.push(`Funding is <b>near flat</b> (${fmtPct(fundAnn, 1)} annualized): no strong crowding either way.`);
-    else if (fundAnn > 0) notes.push(`Funding is <b>positive</b> (${fmtPct(fundAnn, 1)} annualized): longs are paying shorts${fundAnn > 30 ? ', which is elevated' : ''}.`);
-    else notes.push(`Funding is <b>negative</b> (${fmtPct(fundAnn, 1)} annualized): shorts are paying longs${fundAnn < -20 ? ', which is unusually crowded short' : ''}.`);
+  // ---------- labels
+  const trendLabel = s => s <= -60 ? 'Strong downtrend' : s <= -20 ? 'Downtrend' : s < 20 ? 'No clear trend' : s < 60 ? 'Uptrend' : 'Strong uptrend';
+  const levelLabel = v => v < 5 ? 'Extremely low' : v < 15 ? 'Very low' : v < 35 ? 'Low' : v < 65 ? 'Neutral' : v < 85 ? 'Elevated' : v < 95 ? 'High' : 'Extreme';
+  const fbLabel = v => v < 15 ? 'Strong short bias' : v < 35 ? 'Short-leaning' : v < 45 ? 'Slight short lean' : v <= 55 ? 'Neutral' : v <= 65 ? 'Slight long lean' : v <= 85 ? 'Long-leaning' : 'Strong long bias';
+  const riskLabel = v => v < 20 ? 'low' : v < 40 ? 'moderate' : v < 60 ? 'elevated' : v < 80 ? 'high' : 'very high';
+  const fundingState = ann => {
+    const ex = ann - HL_BASE_ANN;
+    if (ann < -5) return ['down', 'shorts paying'];
+    if (ann < 5) return ['', 'below baseline, slight short lean'];
+    if (ex < 5) return ['', 'at baseline (neutral)'];
+    if (ex < 30) return ['up', 'longs leaning in'];
+    return ['hot', 'longs crowded'];
+  };
 
-    const f24 = c.funding.slice(-24).map(f => f[1]);
-    if (f24.length >= 12) {
-      const avg = f24.reduce((a, b) => a + b, 0) / f24.length * 24 * 365 * 100;
-      const negShare = f24.filter(x => x < 0).length / f24.length;
-      notes.push(`Last 24h funding averaged <b>${fmtPct(avg, 1)}</b> annualized, negative in ${Math.round(negShare * 100)}% of hours.`);
+  function centerMeter(name, v, lo, hi, label, leftLbl, rightLbl, parts) {
+    const pct = (v - lo) / (hi - lo) * 100, mid = 50;
+    const left = Math.min(pct, mid), width = Math.abs(pct - mid);
+    const col = v >= (lo + hi) / 2 ? C.accent : C.neg;
+    return `<div class="meter"><div class="top"><span class="name">${name}</span><span class="val">${v > 0 && lo < 0 ? '+' : ''}${Math.round(v)}<small>${label}</small></span></div>
+      <div class="track" role="img" aria-label="${name}: ${Math.round(v)}, ${label}"><span class="fill" style="left:${left}%;width:${width}%;background:${col};opacity:.85"></span><span class="mid"></span><span class="pin" style="left:${pct}%"></span></div>
+      <div class="scale"><span>${leftLbl}</span><span>${rightLbl}</span></div>
+      ${parts ? `<div class="parts">${Object.entries(parts).map(([k, p]) => `<span>${k}</span><span>${p > 0 ? '+' : ''}${p}</span>`).join('')}</div>` : ''}</div>`;
+  }
+  function levelMeter(name, v, label, sub) {
+    const col = v >= 85 ? C.warn : C.accent;
+    return `<div class="meter"><div class="top"><span class="name">${name}</span><span class="val">${Math.round(v)}<small>${label}</small></span></div>
+      <div class="track" role="img" aria-label="${name}: ${Math.round(v)} of 100, ${label}"><span class="fill" style="left:0;width:${v}%;background:${col};opacity:.85"></span><span class="pin" style="left:${v}%"></span></div>
+      <div class="scale"><span>${sub ? sub[0] : 'Low'}</span><span>${sub ? sub[1] : 'High'}</span></div></div>`;
+  }
+
+  function readNotes(c) {
+    const n = [], g = c.gauges, t = c.trend;
+    if (t) {
+      const lt = t.long ? `, long-term <b>${t.long.score > 0 ? '+' : ''}${t.long.score}</b> (${trendLabel(t.long.score).toLowerCase()})` : '';
+      n.push(`Trend: mid-term <b>${t.mid.score > 0 ? '+' : ''}${t.mid.score}</b> (${trendLabel(t.mid.score).toLowerCase()})${lt}.`);
     }
-    if (c.oiChange24h != null && c.change24h != null) {
-      const oiUp = c.oiChange24h > 0, pxUp = c.change24h > 0;
-      const combo = pxUp && oiUp ? 'price up with OI up: new positions are being added into the move'
-        : pxUp && !oiUp ? 'price up with OI down: the move looks driven by shorts closing'
-        : !pxUp && oiUp ? 'price down with OI up: new positions (likely shorts) are being added into the drop'
-        : 'price down with OI down: longs closing or being liquidated';
-      notes.push(`24h: <b>${combo}</b> (price ${fmtPct(c.change24h)}, OI ${fmtPct(c.oiChange24h)}).`);
-    } else {
-      notes.push(`OI change needs at least 24h of hourly snapshots; history so far: ${c.oiHistory.length} point${c.oiHistory.length === 1 ? '' : 's'}.`);
+    const [, fs] = fundingState(c.funding24hAnnualPct);
+    n.push(`Funding over the last 24h averaged <b>${fmtPct(c.funding24hAnnualPct, 1)}</b> a year, ${fs}. Hyperliquid's neutral rate is about +11%.`);
+    if (g && g.fundingBias != null) n.push(`Funding bias <b>${Math.round(g.fundingBias)}/100</b> (${fbLabel(g.fundingBias).toLowerCase()}), OI pressure <b>${Math.round(g.oiPressure)}/100</b> (${levelLabel(g.oiPressure).toLowerCase()}), tension <b>${Math.round(g.tension)}/100</b>.`);
+    const f1 = (c.flows || []).find(f => f.window === '1D');
+    if (f1) n.push(`Last closed day on Binance: <b>${f1.class.toLowerCase()}</b> (price ${fmtPct(f1.price)}, OI ${fmtPct(f1.oi)}).`);
+    const L = c.liquidations;
+    if (L && L.clustersAbove.length && L.clustersBelow.length) {
+      const a = L.clustersAbove[0], b = L.clustersBelow[0];
+      n.push(`Nearest big modeled clusters: shorts around <b>${fmtUsd((a.low + a.high) / 2)}</b> (${fmtPct(a.dist, 1)}), longs around <b>${fmtUsd((b.low + b.high) / 2)}</b> (${fmtPct(b.dist, 1)}).`);
     }
-    const prem = c.premium != null ? c.premium * 100 : null;
-    if (prem != null && Math.abs(prem) >= 0.03) notes.push(`Perp is trading at a <b>${prem > 0 ? 'premium' : 'discount'}</b> to oracle (${fmtPct(prem, 3)}).`);
-    return notes;
+    if (g && g.squeezeShort && g.squeezeLong) {
+      const s = g.squeezeShort.score >= g.squeezeLong.score ? ['Short', g.squeezeShort.score] : ['Long', g.squeezeLong.score];
+      if (s[1] >= 40) n.push(`${s[0]}-squeeze risk is <b>${riskLabel(s[1])}</b> (${Math.round(s[1])}/100).`);
+    }
+    return n;
   }
 
   function render() {
     const c = data.coins[state.coin];
-    const cutoff = Date.now() - state.hours * 3600e3;
+    const now = Date.now(), cutoff = now - state.hours * 3600e3;
     const candles = c.candles.filter(k => k[0] >= cutoff);
     const first = candles[0]?.[4], rangeChg = first ? (c.mark / first - 1) * 100 : null;
     const rangeLbl = { 24: '1D', 72: '3D', 168: '7D', 336: '14D' }[state.hours];
+    const [fcls, ftxt] = fundingState(c.fundingAnnualPct);
 
     $('stats').innerHTML = `
       <div class="stat"><div class="k">${state.coin} mark</div><div class="v">${fmtUsd(c.mark)}</div><div class="s"><span class="${cls(c.change24h)}">${fmtPct(c.change24h)}</span> 24h · <span class="${cls(rangeChg)}">${fmtPct(rangeChg)}</span> ${rangeLbl}</div></div>
-      <div class="stat"><div class="k">Funding</div><div class="v ${cls(c.fundingHourly)}">${fmtPct(c.fundingHourly * 100, 4)}</div><div class="s">${fmtPct(c.fundingAnnualPct, 1)} annualized</div></div>
-      <div class="stat"><div class="k">Open interest</div><div class="v">${fmtBig(c.oiUsd)}</div><div class="s">${c.oiCoins.toLocaleString('en-US', { maximumFractionDigits: 0 })} ${state.coin} · <span class="${cls(c.oiChange24h)}">${fmtPct(c.oiChange24h)}</span> 24h</div></div>
+      <div class="stat"><div class="k">Funding</div><div class="v ${fcls}">${fmtPct(c.fundingAnnualPct, 1)}</div><div class="s">a year · ${ftxt}</div></div>
+      <div class="stat"><div class="k">Open interest</div><div class="v">${fmtBig(c.oiUsd)}</div><div class="s">Hyperliquid · <span class="${cls(c.oiChange24h)}">${fmtPct(c.oiChange24h)}</span> 24h</div></div>
       <div class="stat"><div class="k">24h volume</div><div class="v">${fmtBig(c.volume24hUsd)}</div><div class="s">OI / vol ${(c.oiUsd / c.volume24hUsd).toFixed(2)}x</div></div>
       <div class="stat"><div class="k">Premium</div><div class="v ${cls(c.premium)}">${c.premium == null ? '–' : fmtPct(c.premium * 100, 3)}</div><div class="s">oracle ${fmtUsd(c.oracle)}</div></div>`;
 
-    $('read').innerHTML = readNotes(c).map(n => `<li>${n}</li>`).join('');
-    $('price-title').textContent = `${state.coin} price`;
+    $('read').innerHTML = readNotes(c).map(x => `<li>${x}</li>`).join('');
 
+    // trend
+    const t = c.trend;
+    $('trend').innerHTML = !t ? '<p class="note">Not enough daily history.</p>' :
+      centerMeter('Mid-term', t.mid.score, -100, 100, trendLabel(t.mid.score), '-100', '+100', t.mid.parts) +
+      (t.long ? centerMeter('Long-term', t.long.score, -100, 100, trendLabel(t.long.score), '-100', '+100', t.long.parts) : '');
+    const th = c.trendHistory || [];
+    charts.spark.data.datasets[0].data = th.map(p => ({ x: p[0], y: p[1] }));
+    charts.spark.data.datasets[1].data = th.filter(p => p[2] != null).map(p => ({ x: p[0], y: p[2] }));
+    charts.spark.update();
+
+    // gauges
+    const g = c.gauges;
+    $('gauge-note').textContent = g ? `OI as of ${dayLabel(g.oiAsOf)}` : '';
+    $('gauges').innerHTML = !g ? '<p class="note">History still loading.</p>' :
+      centerMeter('Funding bias', g.fundingBias, 0, 100, fbLabel(g.fundingBias), 'Short', 'Long') +
+      levelMeter('Leverage / OI pressure', g.oiPressure, levelLabel(g.oiPressure)) +
+      levelMeter('Market tension', g.tension, levelLabel(g.tension));
+    const sq = (s, name, dir) => s ? `${levelMeter(name, s.score, riskLabel(s.score), ['', dir])}<div class="parts" style="margin:-8px 0 16px"><span>Crowding (funding)</span><span>${Math.round(s.funding)}</span><span>OI pressure</span><span>${Math.round(s.oi)}</span><span>Move against side</span><span>${Math.round(s.move)}</span></div>` : '';
+    $('squeeze').innerHTML = !g || !g.squeezeLong ? '<p class="note">History still loading.</p>' :
+      sq(g.squeezeLong, 'Long squeeze', 'risk of a sharp drop') + sq(g.squeezeShort, 'Short squeeze', 'risk of a sharp rise');
+
+    // liquidation map
+    const L = c.liquidations;
+    $('liq-empty').hidden = !!L;
+    if (L) {
+      $('liq-empty').textContent = '';
+      $('liq-note').textContent = `${L.lookbackDays}d of Binance OI to ${hourLabel(L.oiThrough)} · ${L.binPct}% bins`;
+      charts.liq.data.datasets[0].data = L.bins.filter(b => b[2] > 0).map(b => ({ x: (b[0] + b[1]) / 2, y: b[2], lo: b[0], hi: b[1] }));
+      charts.liq.data.datasets[1].data = L.bins.filter(b => b[3] > 0).map(b => ({ x: (b[0] + b[1]) / 2, y: b[3], lo: b[0], hi: b[1] }));
+      charts.liq.options.plugins.priceLine.value = c.mark;
+      charts.liq.options.scales.x.min = c.mark * 0.75; charts.liq.options.scales.x.max = c.mark * 1.25;
+      const row = z => `<tr><td>${fmtUsd(z.low)} – ${fmtUsd(z.high)}</td><td>${fmtPct(z.dist, 1)}</td><td>${fmtBig(z.usd)}</td></tr>`;
+      $('cl-above').innerHTML = L.clustersAbove.map(row).join('') || '<tr><td colspan="3">None in range</td></tr>';
+      $('cl-below').innerHTML = L.clustersBelow.map(row).join('') || '<tr><td colspan="3">None in range</td></tr>';
+    } else {
+      $('liq-empty').textContent = 'Not enough Binance OI history yet.';
+      charts.liq.data.datasets.forEach(d => d.data = []);
+    }
+    charts.liq.update();
+
+    // time charts
+    $('price-title').textContent = `${state.coin} price`;
     charts.price.data.datasets[0].data = candles.map(k => ({ x: k[0], y: k[4] }));
     const fund = c.funding.filter(f => f[0] >= cutoff);
     charts.funding.data.datasets[0].data = fund.map(f => ({ x: f[0], y: f[1] * 100 }));
-    charts.funding.data.datasets[0].backgroundColor = fund.map(f => f[1] >= 0 ? COLORS.accent : COLORS.neg);
-    const oi = c.oiHistory.filter(p => p[0] >= cutoff);
+    charts.funding.data.datasets[0].backgroundColor = fund.map(f => f[1] >= 0 ? C.accent : C.neg);
+    const oi = (c.binance?.oiHourly || []).filter(p => p[0] >= cutoff);
     charts.oi.data.datasets[0].data = oi.map(p => ({ x: p[0], y: p[1] }));
-    const oiEmpty = oi.length < 2;
-    $('oi-empty').hidden = !oiEmpty;
-    $('oi-empty').textContent = oiEmpty ? `Hyperliquid has no OI history endpoint, so this builds from hourly snapshots. ${c.oiHistory.length} collected so far.` : '';
-    for (const ch of Object.values(charts)) { ch.options.scales.x.min = cutoff; ch.options.scales.x.max = Date.now(); ch.update(); }
+    $('oi-note').textContent = c.binance?.asOf ? `Binance, USD, to ${dayLabel(c.binance.asOf)}` : 'Binance, USD';
+    $('oi-empty').hidden = oi.length >= 2;
+    $('oi-empty').textContent = oi.length >= 2 ? '' : 'Binance archive data for this range isn’t published yet. Try a longer range.';
+    for (const ch of [charts.price, charts.funding, charts.oi]) { ch.options.scales.x.min = cutoff; ch.options.scales.x.max = now; ch.update(); }
 
+    // positioning
+    $('flow-note').textContent = c.binance?.asOf ? `Binance, closed days to ${dayLabel(c.binance.asOf)}` : '';
+    $('flows').innerHTML = (c.flows || []).map(f => `<tr><td>${f.window}</td><td style="color:var(--fg)">${f.class}</td><td class="${cls(f.price)}">${fmtPct(f.price)}</td><td class="${cls(f.oi)}">${fmtPct(f.oi)}</td></tr>`).join('');
+    const b = c.binance || {};
+    $('ls-note').textContent = b.asOf ? `Binance, end of ${dayLabel(b.asOf)}` : '';
+    const share = x => x == null ? '–' : Math.round(x / (1 + x) * 100) + '%';
+    $('ls').innerHTML = [
+      ['Top traders, by position size', b.lsTop],
+      ['Top traders, by accounts', b.lsTopAcc],
+      ['All accounts', b.lsGlobal],
+      ['Taker buy / sell volume (day avg)', b.taker]
+    ].map(([k, v]) => `<tr><td>${k}</td><td style="color:var(--fg)">${v == null ? '–' : v.toFixed(2)}</td><td>${share(v)}</td></tr>`).join('');
+
+    // table
     const fmap = new Map(c.funding.map(f => [Math.floor(f[0] / 3600e3), f[1]]));
     $('tbl').innerHTML = c.candles.slice(-24).reverse().map(k => {
       const f = fmap.get(Math.floor(k[0] / 3600e3) + 1);
@@ -250,8 +458,7 @@
 
   function renderUpdated() {
     const t = new Date(data.updatedAt), mins = Math.round((Date.now() - t) / 60000);
-    const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : `${Math.round(mins / 60)} h ago`;
-    $('updated-text').textContent = `Updated ${ago}`;
+    $('updated-text').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : Math.round(mins / 60) + ' h ago'}`;
     $('updated').title = t.toLocaleString();
     $('updated').classList.toggle('stale', mins > 150);
   }
