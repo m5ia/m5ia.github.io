@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Crypto Desk · m5ia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%230a0c0c%27/%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20font-family%3D%27-apple-system%2Csystem-ui%2Csans-serif%27%20font-size%3D%2719%27%20font-weight%3D%27700%27%20fill%3D%27%2333bfa1%27%20text-anchor%3D%27middle%27%3E5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0c; --panel: #101615; --panel-2: #131a19;
+    --line: rgba(255,255,255,0.08); --line-2: rgba(255,255,255,0.15);
+    --fg: #f1f5f3; --dim: #c4cbc9; --faint: #869190;
+    --accent: #33bfa1; --accent-soft: rgba(51,191,161,0.12);
+    --neg: #e5705f; --neg-soft: rgba(229,112,95,0.12);
+    --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --maxw: 1180px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+  header { border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; gap: 16px; }
+  .brand { font-size: 18px; font-weight: 600; letter-spacing: -0.03em; display: inline-flex; align-items: center; gap: 10px; }
+  .brand .sq { width: 9px; height: 9px; border-radius: 2px; background: var(--accent); }
+  .brand .five { color: var(--accent); }
+  .brand .sub { color: var(--faint); font-weight: 500; }
+  .updated { font-family: var(--mono); font-size: 12px; color: var(--faint); display: inline-flex; align-items: center; gap: 8px; }
+  .updated .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .updated.stale .dot { background: var(--neg); }
+
+  .controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px 0 22px; }
+  .seg { display: inline-flex; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 3px; }
+  .seg button { font: 500 14px var(--sans); color: var(--dim); background: none; border: 0; padding: 7px 14px; border-radius: 7px; cursor: pointer; }
+  .seg button:hover { color: var(--fg); }
+  .seg button[aria-pressed="true"] { background: var(--panel-2); color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-2); }
+  .seg.mono button { font-family: var(--mono); font-size: 12.5px; padding: 7px 11px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; min-width: 0; }
+  .stat .k { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  .stat .v { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat .s { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .up { color: var(--accent); } .down { color: var(--neg); }
+
+  .read { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .read h2, .card h2 { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  .read ul { list-style: none; display: grid; gap: 6px; }
+  .read li { color: var(--dim); font-size: 14.5px; padding-left: 16px; position: relative; }
+  .read li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 1px; background: var(--line-2); }
+  .read li b { color: var(--fg); font-weight: 500; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 12px; min-width: 0; }
+  .card.wide { grid-column: 1 / -1; }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .card .head .note { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .chart { position: relative; height: 260px; }
+  .card.wide .chart { height: 320px; }
+  .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--faint); font-size: 14px; padding: 20px; }
+
+  details { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; }
+  summary { cursor: pointer; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+  .tbl { overflow-x: auto; margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--faint); font-weight: 500; }
+  td { color: var(--dim); }
+
+  footer { color: var(--faint); font-size: 12.5px; padding: 32px 0 48px; }
+  footer a { text-decoration: underline; text-underline-offset: 3px; }
+  .err { margin-top: 28px; padding: 18px 20px; border: 1px solid var(--neg); border-radius: 14px; color: var(--dim); }
+
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } .stats .stat:first-child { grid-column: 1 / -1; } }
+  @media (max-width: 560px) { .wrap { padding: 0 16px; } .stat .v { font-size: 22px; } .brand .sub { display: none; } .chart, .card.wide .chart { height: 220px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/"><span class="sq"></span><span>m<span class="five">5</span>ia</span><span class="sub">/ crypto desk</span></a>
+    <span class="updated" id="updated"><span class="dot"></span><span id="updated-text">Loading…</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="controls">
+    <div class="seg" id="coin-seg" role="group" aria-label="Asset"></div>
+    <div class="seg mono" id="range-seg" role="group" aria-label="Time range">
+      <button data-h="24">1D</button><button data-h="72">3D</button><button data-h="168">7D</button><button data-h="336">14D</button>
+    </div>
+  </div>
+
+  <section class="stats" id="stats" aria-live="polite"></section>
+
+  <section class="read"><h2>Read</h2><ul id="read"></ul></section>
+
+  <section class="grid">
+    <div class="card wide">
+      <div class="head"><h2 id="price-title">Price</h2><span class="note">1h close, USD</span></div>
+      <div class="chart"><canvas id="price-chart" aria-label="Price chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Funding rate</h2><span class="note">hourly, % per hour</span></div>
+      <div class="chart"><canvas id="funding-chart" aria-label="Funding rate chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Open interest</h2><span class="note">USD notional</span></div>
+      <div class="chart"><canvas id="oi-chart" aria-label="Open interest chart"></canvas><div class="empty" id="oi-empty" hidden></div></div>
+    </div>
+  </section>
+
+  <details>
+    <summary>Data table, last 24 hours</summary>
+    <div class="tbl"><table><thead><tr><th>Hour (local)</th><th>Close</th><th>High</th><th>Low</th><th>Funding %/h</th></tr></thead><tbody id="tbl"></tbody></table></div>
+  </details>
+</main>
+
+<footer class="wrap">
+  Data: <a href="https://hyperliquid.xyz" rel="noopener">Hyperliquid</a> perpetuals, snapshotted hourly. Personal analysis tool, not investment advice.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(() => {
+  const COLORS = { accent: '#33bfa1', neg: '#e5705f', grid: 'rgba(255,255,255,0.06)', tick: '#869190', fg: '#f1f5f3' };
+  const store = { get(k){ try { return localStorage.getItem(k); } catch { return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch {} } };
+  const state = { coin: store.get('cd-coin') || 'BTC', hours: +(store.get('cd-hours') || 168) };
+  let data, charts = {};
+
+  const $ = id => document.getElementById(id);
+  const fmtUsd = (v, d) => v == null ? '–' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: d ?? (v < 10 ? 3 : v < 1000 ? 2 : 0), maximumFractionDigits: d ?? (v < 10 ? 3 : v < 1000 ? 2 : 0) });
+  const fmtBig = v => v == null ? '–' : v >= 1e9 ? '$' + (v/1e9).toFixed(2) + 'B' : '$' + (v/1e6).toFixed(1) + 'M';
+  const fmtPct = (v, d = 2) => v == null ? '–' : (v > 0 ? '+' : '') + v.toFixed(d) + '%';
+  const cls = v => v == null ? '' : v >= 0 ? 'up' : 'down';
+  const hourLabel = t => new Date(t).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+  Chart.defaults.font.family = getComputedStyle(document.documentElement).getPropertyValue('--mono');
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = COLORS.tick;
+
+  const baseOpts = (fmtY) => ({
+    responsive: true, maintainAspectRatio: false, animation: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: { backgroundColor: '#0a0c0c', borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, padding: 10, titleColor: COLORS.tick, bodyColor: COLORS.fg, displayColors: false,
+        callbacks: { label: c => fmtY(c.parsed.y) } }
+    },
+    scales: {
+      x: { type: 'linear', grid: { display: false }, border: { color: COLORS.grid },
+           ticks: { maxTicksLimit: 6, maxRotation: 0, callback: v => new Date(v).toLocaleString('en-GB', state.hours <= 24 ? { hour: '2-digit', minute: '2-digit' } : { day: '2-digit', month: 'short' }) } },
+      y: { position: 'right', grid: { color: COLORS.grid }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: fmtY } }
+    }
+  });
+  const titleCb = items => hourLabel(items[0].parsed.x);
+
+  function lineChart(id, fmtY) {
+    const o = baseOpts(fmtY); o.plugins.tooltip.callbacks.title = titleCb;
+    return new Chart($(id), { type: 'line', data: { datasets: [{ data: [], borderColor: COLORS.accent, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: COLORS.accent, pointHoverBorderColor: '#101615', pointHoverBorderWidth: 2, tension: 0.15, fill: { target: 'origin' }, backgroundColor: 'rgba(51,191,161,0.07)' }] }, options: o });
+  }
+
+  function initCharts() {
+    charts.price = lineChart('price-chart', v => fmtUsd(v));
+    charts.price.options.scales.y.beginAtZero = false;
+    charts.price.data.datasets[0].fill = false;
+    charts.oi = lineChart('oi-chart', fmtBig);
+    charts.oi.data.datasets[0].fill = false;
+    const fo = baseOpts(v => (v > 0 ? '+' : '') + v.toFixed(4) + '%');
+    fo.plugins.tooltip.callbacks.title = titleCb;
+    fo.scales.x.offset = false;
+    charts.funding = new Chart($('funding-chart'), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: [], borderRadius: 2, barPercentage: 0.8, categoryPercentage: 1 }] }, options: fo });
+  }
+
+  function renderSegs() {
+    $('coin-seg').innerHTML = Object.keys(data.coins).map(c => `<button data-c="${c}" aria-pressed="${c === state.coin}">${c}</button>`).join('');
+    document.querySelectorAll('#range-seg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.h === state.hours));
+  }
+
+  function readNotes(c) {
+    const notes = [];
+    const fundAnn = c.fundingAnnualPct;
+    if (Math.abs(fundAnn) < 3) notes.push(`Funding is <b>near flat</b> (${fmtPct(fundAnn, 1)} annualized): no strong crowding either way.`);
+    else if (fundAnn > 0) notes.push(`Funding is <b>positive</b> (${fmtPct(fundAnn, 1)} annualized): longs are paying shorts${fundAnn > 30 ? ', which is elevated' : ''}.`);
+    else notes.push(`Funding is <b>negative</b> (${fmtPct(fundAnn, 1)} annualized): shorts are paying longs${fundAnn < -20 ? ', which is unusually crowded short' : ''}.`);
+
+    const f24 = c.funding.slice(-24).map(f => f[1]);
+    if (f24.length >= 12) {
+      const avg = f24.reduce((a, b) => a + b, 0) / f24.length * 24 * 365 * 100;
+      const negShare = f24.filter(x => x < 0).length / f24.length;
+      notes.push(`Last 24h funding averaged <b>${fmtPct(avg, 1)}</b> annualized, negative in ${Math.round(negShare * 100)}% of hours.`);
+    }
+    if (c.oiChange24h != null && c.change24h != null) {
+      const oiUp = c.oiChange24h > 0, pxUp = c.change24h > 0;
+      const combo = pxUp && oiUp ? 'price up with OI up: new positions are being added into the move'
+        : pxUp && !oiUp ? 'price up with OI down: the move looks driven by shorts closing'
+        : !pxUp && oiUp ? 'price down with OI up: new positions (likely shorts) are being added into the drop'
+        : 'price down with OI down: longs closing or being liquidated';
+      notes.push(`24h: <b>${combo}</b> (price ${fmtPct(c.change24h)}, OI ${fmtPct(c.oiChange24h)}).`);
+    } else {
+      notes.push(`OI change needs at least 24h of hourly snapshots; history so far: ${c.oiHistory.length} point${c.oiHistory.length === 1 ? '' : 's'}.`);
+    }
+    const prem = c.premium != null ? c.premium * 100 : null;
+    if (prem != null && Math.abs(prem) >= 0.03) notes.push(`Perp is trading at a <b>${prem > 0 ? 'premium' : 'discount'}</b> to oracle (${fmtPct(prem, 3)}).`);
+    return notes;
+  }
+
+  function render() {
+    const c = data.coins[state.coin];
+    const cutoff = Date.now() - state.hours * 3600e3;
+    const candles = c.candles.filter(k => k[0] >= cutoff);
+    const first = candles[0]?.[4], rangeChg = first ? (c.mark / first - 1) * 100 : null;
+    const rangeLbl = { 24: '1D', 72: '3D', 168: '7D', 336: '14D' }[state.hours];
+
+    $('stats').innerHTML = `
+      <div class="stat"><div class="k">${state.coin} mark</div><div class="v">${fmtUsd(c.mark)}</div><div class="s"><span class="${cls(c.change24h)}">${fmtPct(c.change24h)}</span> 24h · <span class="${cls(rangeChg)}">${fmtPct(rangeChg)}</span> ${rangeLbl}</div></div>
+      <div class="stat"><div class="k">Funding</div><div class="v ${cls(c.fundingHourly)}">${fmtPct(c.fundingHourly * 100, 4)}</div><div class="s">${fmtPct(c.fundingAnnualPct, 1)} annualized</div></div>
+      <div class="stat"><div class="k">Open interest</div><div class="v">${fmtBig(c.oiUsd)}</div><div class="s">${c.oiCoins.toLocaleString('en-US', { maximumFractionDigits: 0 })} ${state.coin} · <span class="${cls(c.oiChange24h)}">${fmtPct(c.oiChange24h)}</span> 24h</div></div>
+      <div class="stat"><div class="k">24h volume</div><div class="v">${fmtBig(c.volume24hUsd)}</div><div class="s">OI / vol ${(c.oiUsd / c.volume24hUsd).toFixed(2)}x</div></div>
+      <div class="stat"><div class="k">Premium</div><div class="v ${cls(c.premium)}">${c.premium == null ? '–' : fmtPct(c.premium * 100, 3)}</div><div class="s">oracle ${fmtUsd(c.oracle)}</div></div>`;
+
+    $('read').innerHTML = readNotes(c).map(n => `<li>${n}</li>`).join('');
+    $('price-title').textContent = `${state.coin} price`;
+
+    charts.price.data.datasets[0].data = candles.map(k => ({ x: k[0], y: k[4] }));
+    const fund = c.funding.filter(f => f[0] >= cutoff);
+    charts.funding.data.datasets[0].data = fund.map(f => ({ x: f[0], y: f[1] * 100 }));
+    charts.funding.data.datasets[0].backgroundColor = fund.map(f => f[1] >= 0 ? COLORS.accent : COLORS.neg);
+    const oi = c.oiHistory.filter(p => p[0] >= cutoff);
+    charts.oi.data.datasets[0].data = oi.map(p => ({ x: p[0], y: p[1] }));
+    const oiEmpty = oi.length < 2;
+    $('oi-empty').hidden = !oiEmpty;
+    $('oi-empty').textContent = oiEmpty ? `Hyperliquid has no OI history endpoint, so this builds from hourly snapshots. ${c.oiHistory.length} collected so far.` : '';
+    for (const ch of Object.values(charts)) { ch.options.scales.x.min = cutoff; ch.options.scales.x.max = Date.now(); ch.update(); }
+
+    const fmap = new Map(c.funding.map(f => [Math.floor(f[0] / 3600e3), f[1]]));
+    $('tbl').innerHTML = c.candles.slice(-24).reverse().map(k => {
+      const f = fmap.get(Math.floor(k[0] / 3600e3) + 1);
+      return `<tr><td>${hourLabel(k[0])}</td><td>${fmtUsd(k[4])}</td><td>${fmtUsd(k[2])}</td><td>${fmtUsd(k[3])}</td><td>${f == null ? '–' : (f * 100).toFixed(4)}</td></tr>`;
+    }).join('');
+  }
+
+  function renderUpdated() {
+    const t = new Date(data.updatedAt), mins = Math.round((Date.now() - t) / 60000);
+    const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : `${Math.round(mins / 60)} h ago`;
+    $('updated-text').textContent = `Updated ${ago}`;
+    $('updated').title = t.toLocaleString();
+    $('updated').classList.toggle('stale', mins > 150);
+  }
+
+  $('coin-seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.coin = b.dataset.c; store.set('cd-coin', state.coin); renderSegs(); render(); });
+  $('range-seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.hours = +b.dataset.h; store.set('cd-hours', state.hours); renderSegs(); render(); });
+
+  fetch('data.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    data = d;
+    if (!data.coins[state.coin]) state.coin = Object.keys(data.coins)[0];
+    initCharts(); renderSegs(); render(); renderUpdated();
+    setInterval(renderUpdated, 60000);
+  }).catch(err => {
+    $('updated-text').textContent = 'No data';
+    document.querySelector('main').insertAdjacentHTML('afterbegin', `<div class="err">Couldn't load data.json (${err.message}). The snapshot job may not have run yet.</div>`);
+  });
+})();
+</script>
+</body>
+</html>
