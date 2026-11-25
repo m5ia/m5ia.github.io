@@ -2,3 +2,4 @@
 institutional.html
 *.html
 !crypto/index.html
+!crypto/guide.html

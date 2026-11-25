@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Desk Guide · m5ia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%230a0c0c%27/%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20font-family%3D%27-apple-system%2Csystem-ui%2Csans-serif%27%20font-size%3D%2719%27%20font-weight%3D%27700%27%20fill%3D%27%2333bfa1%27%20text-anchor%3D%27middle%27%3E5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0c; --panel: #101615; --panel-2: #131a19;
+    --line: rgba(255,255,255,0.08); --line-2: rgba(255,255,255,0.15);
+    --fg: #f1f5f3; --dim: #c4cbc9; --faint: #869190;
+    --accent: #33bfa1; --neg: #e5705f; --warn: #d9a441;
+    --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--dim); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  header { border-bottom: 1px solid var(--line); }
+  .bar { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-size: 18px; font-weight: 600; letter-spacing: -0.03em; display: inline-flex; align-items: center; gap: 10px; color: var(--fg); text-decoration: none; }
+  .brand .sq { width: 9px; height: 9px; border-radius: 2px; background: var(--accent); }
+  .brand .five { color: var(--accent); }
+  .brand .sub { color: var(--faint); font-weight: 500; }
+  .back { font-family: var(--mono); font-size: 12.5px; color: var(--dim); text-decoration: none; }
+  .back:hover { color: var(--fg); }
+
+  .layout { max-width: 1180px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px; }
+  nav.toc { position: sticky; top: 24px; align-self: start; padding-top: 56px; font-size: 13.5px; }
+  nav.toc .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+  nav.toc a { display: block; color: var(--faint); text-decoration: none; padding: 4px 0 4px 12px; border-left: 1px solid var(--line); }
+  nav.toc a:hover { color: var(--fg); border-left-color: var(--accent); }
+  article { padding: 56px 0 80px; max-width: 760px; }
+
+  .lbl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .lbl::before { content: ""; width: 24px; height: 1px; background: var(--accent); opacity: 0.7; }
+  h1 { color: var(--fg); font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px; }
+  .lead { font-size: 1.15rem; color: var(--dim); margin-bottom: 28px; }
+  h2 { color: var(--fg); font-size: 1.7rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.2; margin: 64px 0 16px; scroll-margin-top: 24px; }
+  h3 { color: var(--fg); font-size: 1.12rem; font-weight: 600; letter-spacing: -0.015em; margin: 32px 0 10px; }
+  p { margin-bottom: 14px; }
+  b, strong { color: var(--fg); font-weight: 500; }
+  ul, ol { margin: 0 0 16px 20px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--faint); }
+  code { font-family: var(--mono); font-size: 0.88em; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--fg); }
+
+  .callout { background: var(--panel); border: 1px solid var(--line); border-left: 2px solid var(--accent); border-radius: 10px; padding: 16px 20px; margin: 20px 0; }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+
+  .tbl { overflow-x: auto; margin: 16px 0 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { color: var(--fg); white-space: nowrap; font-family: var(--mono); font-size: 13px; }
+
+  .ind { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px 8px; margin: 18px 0; }
+  .ind h3 { margin-top: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ind h3 .where { font-family: var(--mono); font-size: 11.5px; font-weight: 400; color: var(--faint); letter-spacing: 0.04em; }
+  .ind dl { display: grid; grid-template-columns: 120px 1fr; gap: 6px 16px; margin-bottom: 14px; }
+  .ind dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); padding-top: 3px; }
+  .ind dd { margin: 0; }
+
+  .setup { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px 10px; margin: 18px 0; }
+  .setup h3 { margin-top: 0; }
+  .setup .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 5px; margin-left: 8px; vertical-align: 2px; border: 1px solid var(--line-2); color: var(--dim); font-weight: 400; }
+  .setup .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+  .setup h4 { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin: 10px 0 6px; }
+  .setup ul { margin-left: 18px; }
+
+  .check { list-style: none; margin-left: 0; counter-reset: c; }
+  .check li { counter-increment: c; position: relative; padding: 12px 16px 12px 52px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; }
+  .check li::before { content: counter(c); position: absolute; left: 16px; top: 12px; width: 24px; height: 24px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line-2); color: var(--accent); font-family: var(--mono); font-size: 12px; display: grid; place-items: center; }
+
+  footer { border-top: 1px solid var(--line); color: var(--faint); font-size: 13px; }
+  footer .in { max-width: 1180px; margin: 0 auto; padding: 28px 32px 48px; }
+
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; gap: 0; } nav.toc { display: none; } article { padding-top: 40px; } }
+  @media (max-width: 560px) {
+    .bar, .layout, footer .in { padding-left: 16px; padding-right: 16px; } .brand .sub { display: none; }
+    .ind dl { grid-template-columns: 1fr; gap: 2px; } .ind dd { margin-bottom: 10px; } .setup .grid { grid-template-columns: 1fr; }
+    .ind, .setup { padding: 18px 16px 6px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="brand" href="./"><span class="sq"></span><span>m<span class="five">5</span>ia</span><span class="sub">/ crypto desk</span></a>
+    <a class="back" href="./">← Back to the desk</a>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="k">Contents</div>
+    <a href="#principles">Core principles</a>
+    <a href="#routine">The 5-minute routine</a>
+    <a href="#indicators">Reading each indicator</a>
+    <a href="#combine">Putting signals together</a>
+    <a href="#setups">Setups playbook</a>
+    <a href="#risk">Risk and position sizing</a>
+    <a href="#example">Worked example</a>
+    <a href="#checklist">Pre-trade checklist</a>
+    <a href="#limits">Limits of this data</a>
+  </nav>
+
+  <article>
+    <div class="lbl">Desk guide</div>
+    <h1>How to read the desk and turn it into trade decisions</h1>
+    <p class="lead">The desk shows you two things: <b>which way the market is trending</b> and <b>how traders are positioned</b>. Neither is a buy or sell signal on its own. The edge comes from spotting when positioning and price disagree, then waiting for price to confirm.</p>
+
+    <div class="callout warn"><p>This is a framework for my own analysis, not investment advice. Leveraged crypto trading can lose more than you put in. Nothing here predicts price.</p></div>
+
+    <h2 id="principles">Core principles</h2>
+    <ol>
+      <li><b>Price first, positioning second.</b> The trend indicator and the chart decide direction. Funding, OI and liquidations add context: is the move crowded, fragile, or has it got room to run?</li>
+      <li><b>Crowds get squeezed.</b> When one side is heavily leveraged, a small move against it forces liquidations, and those forced orders push price further. Most of the setups below come from this.</li>
+      <li><b>Extremes can last.</b> Crowded positioning tells you where the risk is, not when it breaks. Never fade a crowd without a price trigger.</li>
+      <li><b>Every trade needs an exit before it has an entry.</b> Decide where you're wrong first, then size the position so being wrong costs a small, fixed amount.</li>
+      <li><b>No setup is a valid answer.</b> Most days the desk will say "nothing special". That's when you protect capital.</li>
+    </ol>
+
+    <h2 id="routine">The 5-minute routine</h2>
+    <p>Read the desk top-down in the same order every time, so you don't anchor on one number.</p>
+    <ol class="check">
+      <li><b>Trend.</b> Mid-term and long-term scores. Do they agree? This gives you the default direction, or tells you there isn't one.</li>
+      <li><b>Crowding.</b> Funding bias and the funding card. Is one side paying up to hold its position?</li>
+      <li><b>Leverage.</b> OI pressure and market tension. Is there a lot of fuel for a forced move?</li>
+      <li><b>Flow.</b> Position flow over 1D / 3D / 7D. Who has been adding or closing recently?</li>
+      <li><b>Liquidity.</b> The liquidation map. Where are the nearest big clusters above and below? Those are likely targets, and places not to put your stop.</li>
+      <li><b>Decide.</b> Does this match a setup in the playbook? If yes, mark the trigger and invalidation on the chart. If no, do nothing.</li>
+    </ol>
+
+    <h2 id="indicators">Reading each indicator</h2>
+
+    <div class="ind">
+      <h3>Trend indicator <span class="where">Signals · -100 to +100</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>Where price sits against its moving averages, how those averages slope, and recent momentum. Mid-term covers weeks (21/55-day averages, 30-day return). Long-term covers months (50/200-day averages, 180-day return).</dd>
+        <dt>Bands</dt><dd>≤ -60 strong downtrend · -60 to -20 downtrend · -20 to +20 no clear trend · +20 to +60 uptrend · ≥ +60 strong uptrend.</dd>
+        <dt>Use it for</dt><dd>Your default direction. Trade with the mid-term trend when long-term agrees. When they disagree, size down or wait. Within ±20, think range, not trend.</dd>
+        <dt>Watch for</dt><dd>Turns. A mid-term score climbing off -100 while price holds a level is often the first sign a downtrend is losing steam. The sparkline shows this best.</dd>
+        <dt>Trap</dt><dd>It's slow by design. At ±100 the move is already well along, so don't chase entries just because the score is extreme.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Funding rate <span class="where">Top cards · funding chart</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>Payments between longs and shorts that keep the perp near spot. Positive means longs pay shorts, negative means shorts pay longs.</dd>
+        <dt>Baseline</dt><dd>Hyperliquid builds in about <b>+11% a year</b> by default, so +11% is neutral, not bullish. The desk accounts for this in its labels.</dd>
+        <dt>Bands</dt><dd>Below -5%: shorts paying · -5 to +5%: slight short lean · +5 to +16%: neutral · +16 to +41%: longs leaning in · above +41%: longs crowded.</dd>
+        <dt>Use it for</dt><dd>Spotting a crowded side. Use the 24h average in the Read box rather than a single hourly print, which is noisy.</dd>
+        <dt>Trap</dt><dd>Hot funding in a strong bull market can stay hot for weeks. It raises the risk of a flush; it doesn't time one.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Funding bias <span class="where">Market gauges · 0 to 100</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>Where today's funding sits against the past year and six months. 50 is typical for this coin.</dd>
+        <dt>Bands</dt><dd>&lt; 15 strong short bias · 15 to 35 short-leaning · 35 to 65 roughly neutral · 65 to 85 long-leaning · &gt; 85 strong long bias.</dd>
+        <dt>Use it for</dt><dd>Judging crowding relative to normal, which matters more than the raw rate. A reading under 15 or over 85 means positioning is unusual for this coin.</dd>
+        <dt>Trap</dt><dd>It's a percentile, not the share of traders who are long or short.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Leverage / OI pressure <span class="where">Market gauges · 0 to 100</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>How much open interest there is now against the past year (Binance, in coins, so price moves don't distort it).</dd>
+        <dt>Bands</dt><dd>&lt; 35 low · 35 to 65 neutral · 65 to 85 elevated · &gt; 85 high, a lot of leverage in the system.</dd>
+        <dt>Use it for</dt><dd>Sizing the fuel. High OI plus a crowded side means a squeeze, if it comes, can be large. Low OI means moves are more likely driven by spot buying and selling.</dd>
+        <dt>Trap</dt><dd>OI says how much leverage there is, not which side holds it. Pair it with funding and flow.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Market tension <span class="where">Market gauges · 0 to 100</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>One number combining leverage (55%), how lopsided funding is (30%) and how big the latest OI change was (15%).</dd>
+        <dt>Use it for</dt><dd>Deciding how careful to be. Above about 65, expect bigger, faster moves and wider wicks: use smaller size and wider stops, or wait. Below 35, the market is calm and range trades work better.</dd>
+        <dt>Trap</dt><dd>High tension doesn't say which direction. It's a volatility warning.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Squeeze risk <span class="where">Signals · 0 to 100, each side</span></h3>
+      <dl>
+        <dt>Measures</dt><dd><b>Long squeeze</b>: longs crowded + high OI + price already moving against longs. <b>Short squeeze</b>: the mirror image.</dd>
+        <dt>Bands</dt><dd>&lt; 20 low · 20 to 40 moderate · 40 to 60 elevated · 60 to 80 high · &gt; 80 very high.</dd>
+        <dt>Use it for</dt><dd>A warning against joining the crowded side late, and a shortlist for squeeze setups (see the playbook). Above 50, don't add to the crowded side.</dd>
+        <dt>Trap</dt><dd>It's a score, not a probability. Squeezes need a trigger; a high score can sit there for days.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Liquidation map <span class="where">Liquidity · model</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>An estimate of where positions opened in the last 30 days would be force-closed. Red bars below price are long liquidations; green bars above are short liquidations. The tables list the biggest zones.</dd>
+        <dt>Use it for</dt><dd><b>Targets</b>: price is often drawn toward large clusters, because hitting them triggers forced orders that extend the move. <b>Stops</b>: don't put your stop inside or just before a big cluster, since price often sweeps those. Put it beyond the cluster, or skip the trade.</dd>
+        <dt>Read it as</dt><dd>Rough zones, not exact prices. Compare the sides: much more size above than below means a move up has more forced buying to feed on, and vice versa.</dd>
+        <dt>Trap</dt><dd>It's modeled from Binance OI with assumed leverage. It's blind to positions opened more than 30 days ago and to other exchanges, and it lags up to a day.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Position flow <span class="where">Positioning · 1D / 3D / 7D</span></h3>
+      <dl>
+        <dt>Measures</dt><dd>Price change and Binance OI change over closed days, classified into the four standard readings.</dd>
+        <dt>Readings</dt><dd><b>Longs adding</b> (price ↑, OI ↑): trend has fuel. <b>Short covering</b> (price ↑, OI ↓): rally driven by shorts exiting, can fade. <b>Shorts adding</b> (price ↓, OI ↑): fuel for a later squeeze. <b>Long liquidation</b> (price ↓, OI ↓): a flush, leverage clearing out.</dd>
+        <dt>Use it for</dt><dd>Seeing if a move is healthy. Agreement across 1D, 3D and 7D is more meaningful than one window.</dd>
+        <dt>Trap</dt><dd>OI can't actually identify who opened a position. These are the usual interpretations, not facts.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Long / short ratios <span class="where">Positioning · Binance</span></h3>
+      <dl>
+        <dt>Measures</dt><dd><b>Top traders by position size</b>: how Binance's biggest accounts are positioned, weighted by size. <b>All accounts</b>: the share of all accounts that are net long. <b>Taker buy/sell</b>: whether aggressive market orders were mostly buys (&gt; 1) or sells (&lt; 1).</dd>
+        <dt>Use it for</dt><dd>Spotting a gap between big and small traders. Retail ("all accounts") heavily long while price falls is a classic sign that longs are trapped.</dd>
+        <dt>Trap</dt><dd>Retail accounts on Binance are usually net long, so readings of 2 to 3 are normal. Watch for changes and extremes, not the level.</dd>
+      </dl>
+    </div>
+
+    <div class="ind">
+      <h3>Premium, volume, OI / volume <span class="where">Top cards</span></h3>
+      <dl>
+        <dt>Premium</dt><dd>Perp price vs spot (oracle). A discount means perp traders are more bearish than spot. Price rising while the perp trades at a discount suggests real spot buying, which is a healthier rally.</dd>
+        <dt>Volume</dt><dd>Breakouts on rising volume are more trustworthy. A breakout on thin volume often fails.</dd>
+        <dt>OI / volume</dt><dd>High means a lot of positioning relative to trading activity. That's stored-up fuel for a forced move.</dd>
+      </dl>
+    </div>
+
+    <h2 id="combine">Putting signals together</h2>
+    <p>Single readings mean little. These combinations are what traders actually look for:</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Trend</th><th>Positioning</th><th>What it usually means</th></tr></thead>
+      <tbody>
+        <tr><td>Up</td><td>Funding neutral, longs adding</td><td>Healthy trend with room to run. Buy pullbacks.</td></tr>
+        <tr><td>Up</td><td>Funding hot, FB &gt; 85, OI high</td><td>Crowded long. Trend may continue, but the risk of a sharp flush is rising. Don't chase; tighten stops.</td></tr>
+        <tr><td>Up</td><td>Short covering, OI falling</td><td>Rally driven by shorts exiting. Can fade once covering is done.</td></tr>
+        <tr><td>Down</td><td>Funding neutral, long liquidation</td><td>Leverage is clearing. Often near a short-term low, but not a trend change by itself.</td></tr>
+        <tr><td>Down</td><td>Funding negative, FB &lt; 15, shorts adding</td><td>Crowded short. Trend may continue, but short-squeeze risk is high. Don't chase shorts.</td></tr>
+        <tr><td>Flat</td><td>Neutral gauges, low tension</td><td>Range. Trade the edges toward liquidity clusters, or sit out.</td></tr>
+        <tr><td>Any</td><td>Tension &gt; 75</td><td>Expect violent moves both ways. Smaller size, wider stops, or wait.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="setups">Setups playbook</h2>
+    <p>Each setup has the conditions to look for on the desk, the trigger to wait for on the price chart, and where the idea is wrong. If you can't define all three, there's no trade.</p>
+
+    <div class="setup">
+      <h3>1. Trend pullback <span class="tag">with trend</span></h3>
+      <p>The bread-and-butter trade. Join a healthy trend after a dip that flushes weak hands.</p>
+      <div class="grid">
+        <div><h4>Desk conditions</h4><ul><li>Mid and long-term trend agree, both beyond ±40</li><li>Funding bias between 35 and 70 (trend not crowded)</li><li>Price pulls back into a cluster on the liquidation map against the trend</li></ul></div>
+        <div><h4>Trigger on the chart</h4><ul><li>The pullback sweeps the cluster (a wick through it, OI dips)</li><li>Price then reclaims the level it broke</li></ul></div>
+        <div><h4>Invalidation</h4><ul><li>A close back beyond the sweep low (or high)</li></ul></div>
+        <div><h4>Targets</h4><ul><li>The prior swing high/low, then the next big cluster in the trend direction</li></ul></div>
+      </div>
+    </div>
+
+    <div class="setup">
+      <h3>2. Short squeeze <span class="tag">counter-trend</span></h3>
+      <p>Shorts have piled into a downtrend and are paying to stay in. If price stops falling, they're forced to buy back.</p>
+      <div class="grid">
+        <div><h4>Desk conditions</h4><ul><li>Funding bias under 20, 24h funding below baseline</li><li>Position flow "Shorts adding" over 3D and 7D</li><li>Short-squeeze score above 45, OI pressure above 40</li><li>A big short cluster within reach above</li></ul></div>
+        <div><h4>Trigger on the chart</h4><ul><li>Price stops making new lows (a higher low)</li><li>A close back above the prior day's high or a broken support</li><li>Bonus: mid-term trend score starts rising off its low</li></ul></div>
+        <div><h4>Invalidation</h4><ul><li>A new low below the higher low</li></ul></div>
+        <div><h4>Targets</h4><ul><li>The nearest large short cluster above. Take most of it off there; squeezes reverse fast.</li></ul></div>
+      </div>
+      <p>Counter-trend, so use half your normal size.</p>
+    </div>
+
+    <div class="setup">
+      <h3>3. Long squeeze <span class="tag">counter-trend</span></h3>
+      <p>The mirror image: longs are crowded into an uptrend that's stalling.</p>
+      <div class="grid">
+        <div><h4>Desk conditions</h4><ul><li>Funding bias above 80, funding above +41% a year</li><li>Position flow "Longs adding" over 3D and 7D, OI pressure above 65</li><li>Long-squeeze score above 45</li><li>A big long cluster close below</li></ul></div>
+        <div><h4>Trigger on the chart</h4><ul><li>A failed breakout or lower high at resistance</li><li>A close below the prior day's low</li></ul></div>
+        <div><h4>Invalidation</h4><ul><li>A new high above the failed breakout</li></ul></div>
+        <div><h4>Targets</h4><ul><li>The nearest large long cluster below</li></ul></div>
+      </div>
+      <p>Counter-trend, so use half your normal size. Hot funding alone is not enough; wait for the failure.</p>
+    </div>
+
+    <div class="setup">
+      <h3>4. After the flush <span class="tag">reset</span></h3>
+      <p>A sharp move liquidates one side, OI drops hard and funding resets to neutral. The market is now less fragile.</p>
+      <div class="grid">
+        <div><h4>Desk conditions</h4><ul><li>A large one-day OI drop (flow "Long liquidation" or "Short covering")</li><li>Funding back near baseline, squeeze scores falling</li><li>The cluster that was hit has disappeared from the map</li></ul></div>
+        <div><h4>How to use it</h4><ul><li>If the flush was against the main trend, look for setup 1 in the trend direction</li><li>If it was with the trend, expect a bounce or pause; don't enter late</li></ul></div>
+      </div>
+    </div>
+
+    <div class="setup">
+      <h3>5. Range <span class="tag">no trend</span></h3>
+      <div class="grid">
+        <div><h4>Desk conditions</h4><ul><li>Both trend scores within ±20</li><li>Gauges neutral, tension under 40</li><li>Clusters on both sides at similar distances</li></ul></div>
+        <div><h4>How to use it</h4><ul><li>Fade the edges of the range, with stops outside it</li><li>Or sit out and wait for a breakout with rising volume and OI</li></ul></div>
+      </div>
+    </div>
+
+    <h3>When not to trade</h3>
+    <ul>
+      <li>Trend and positioning point in opposite directions and there's no price trigger.</li>
+      <li>Tension above 75 and you don't have a clear invalidation level.</li>
+      <li>The desk shows "Updated" in red (stale data), or the Binance date is several days old.</li>
+      <li>Just before major scheduled news (FOMC, CPI, big token unlocks).</li>
+      <li>You're trading to make back a loss.</li>
+    </ul>
+
+    <h2 id="risk">Risk and position sizing</h2>
+    <p>Desk signals improve the odds slightly. Risk management is what keeps you in the game long enough for that to matter.</p>
+    <ol>
+      <li><b>Fix the risk per trade.</b> Risk 0.5% to 1% of your account per idea. Counter-trend setups get half that.</li>
+      <li><b>Size from the stop, not the other way round.</b> Position size = amount at risk ÷ distance to stop. With a $10,000 account risking 1% ($100) and a stop 2.5% away, the position is $4,000.</li>
+      <li><b>Leverage is just a margin setting.</b> Pick it so your exchange liquidation price sits well beyond your stop. If your liquidation price is closer than your stop, the position is too big.</li>
+      <li><b>Put stops beyond liquidity, not inside it.</b> If a big cluster sits just past your planned stop, either move the stop beyond it and reduce size, or pass.</li>
+      <li><b>Take partial profits at clusters.</b> Big clusters are where forced orders land, and often where moves stall.</li>
+      <li><b>Keep a trade log.</b> Note the desk readings at entry. After 20 to 30 trades you'll see which setups actually work for you.</li>
+    </ol>
+
+    <h2 id="example">Worked example: BTC, 25 Nov 2026</h2>
+    <p>How the routine plays out on one snapshot. The numbers are from the desk on that day.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Step</th><th>Reading</th><th>Takeaway</th></tr></thead>
+      <tbody>
+        <tr><td>Trend</td><td>Mid -100, long -28</td><td>Strong mid-term downtrend; long-term weakening but not fully broken.</td></tr>
+        <tr><td>Crowding</td><td>Funding bias 4, 24h funding about -5% a year</td><td>Shorts unusually crowded; they're paying to stay short.</td></tr>
+        <tr><td>Leverage</td><td>OI pressure 38, tension 61</td><td>Moderate leverage, elevated tension.</td></tr>
+        <tr><td>Flow</td><td>Shorts adding on 1D, 3D and 7D</td><td>New shorts keep coming in on the way down.</td></tr>
+        <tr><td>Liquidity</td><td>Shorts around $64.7K (+11%), longs around $55.4K (-5%)</td><td>More modeled size above than below; the nearest long cluster is closer.</td></tr>
+        <tr><td>Squeeze</td><td>Short squeeze 50, long squeeze 31</td><td>Squeeze risk tilted upward.</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Reading:</b> the trend says down, but positioning says shorts are crowded. That's a conflict, so chasing new shorts here is poor risk. Two ways the playbook handles it:</p>
+    <ul>
+      <li><b>With the trend:</b> wait for a bounce toward resistance, ideally one that clears some shorts and resets funding, then look for a short on a failed reclaim (setup 1 in reverse).</li>
+      <li><b>Short squeeze (setup 2):</b> only if price prints a higher low and closes back above the prior day's high. Half size, stop below the higher low, target toward the $64–65K cluster.</li>
+    </ul>
+    <p>Without either trigger, the desk says wait. Note the nearer long cluster around $55.4K: a sweep of that level is also possible before any squeeze.</p>
+
+    <h2 id="checklist">Pre-trade checklist</h2>
+    <ol class="check">
+      <li>Which setup is this, by name? If none fits, stop here.</li>
+      <li>Does the mid-term trend support it? If not, is it a deliberate counter-trend setup at half size?</li>
+      <li>Is the side I'm joining already crowded (funding bias beyond 15 / 85, squeeze score above 50)?</li>
+      <li>Has the price trigger actually happened, on a closed candle?</li>
+      <li>Where exactly am I wrong, and is that level beyond the nearest liquidation cluster?</li>
+      <li>Position size = risk ÷ stop distance. Is my exchange liquidation price beyond my stop?</li>
+      <li>Where do I take profits, and is it at least 2× my risk?</li>
+      <li>Is the desk data fresh, and is there major news in the next few hours?</li>
+    </ol>
+
+    <h2 id="limits">Limits of this data</h2>
+    <ul>
+      <li><b>Lag.</b> Binance-based numbers (OI, gauges, flow, liquidation map) run up to a day behind. Hyperliquid numbers (price, funding, trend) are at most an hour old.</li>
+      <li><b>Partial view.</b> Funding is Hyperliquid's, OI is Binance's. Neither is the whole market. Aggregated data (Velo, Coinglass) gives a fuller picture.</li>
+      <li><b>The liquidation map is a model.</b> It assumes leverage levels and only sees positions opened in the last 30 days.</li>
+      <li><b>Everyone sees similar data.</b> These signals are widely watched, so the edge from them is small. Discipline, patience and sizing matter more than any single reading.</li>
+    </ul>
+  </article>
+</div>
+
+<footer><div class="in">Personal analysis framework, not investment advice. <a href="./">Back to the desk</a></div></footer>
+</body>
+</html>
